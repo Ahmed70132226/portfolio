@@ -40,7 +40,7 @@ export const Hero = () => {
             variants={fadeInUp}
             whileHover={{ scale: 1.02 }}
           >
-            Muhammad Ahmed
+            Ahmed
           </motion.h1>
           <motion.h2 className="hero-subtitle" variants={fadeInUp}>
             {" "}
