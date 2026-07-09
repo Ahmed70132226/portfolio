@@ -8,7 +8,7 @@ import { Experience } from "./components/Experience";
 import { Education } from "./components/Education";
 import { Certifications } from "./components/Certifications";
 import { Skills } from "./components/Skills";
-import { CustomCursor } from "./components/CustomCursor";
+
 import { Preloader } from "./components/Preloader";
 import { useState, useCallback } from "react";
 import emailjs from "@emailjs/browser";
@@ -251,7 +251,7 @@ function App() {
 
   return (
     <>
-      <CustomCursor />
+
       <Preloader onComplete={handlePreloaderDone} />
 
       <AnimatePresence>
