@@ -428,152 +428,256 @@ export const Hero = () => {
           </div>
         </div>
 
-        {/* Right — Visual */}
-        <div
+        {/* Right — Profile Photo Visual */}
+        <motion.div
           data-parallax="0.6"
+          className="hero-visual"
           style={{
             position: "relative",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            height: "460px",
+            height: "500px",
           }}
-          className="hero-visual"
+          initial={{ opacity: 0, x: 40 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.9, delay: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
         >
-          {/* Central circle */}
-          <div
+
+          {/* Outer ambient glow */}
+          <div style={{
+            position: "absolute",
+            width: "340px",
+            height: "340px",
+            borderRadius: "50%",
+            background: "radial-gradient(circle, rgba(0,212,255,0.1) 0%, transparent 70%)",
+            pointerEvents: "none",
+          }} />
+
+          {/* Slowly rotating dashed ring — outer */}
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
             style={{
-              position: "relative",
-              width: "200px",
-              height: "200px",
+              position: "absolute",
+              width: "310px",
+              height: "310px",
               borderRadius: "50%",
-              background: "radial-gradient(circle at 40% 35%, var(--bg-card-hover) 0%, var(--bg-deep) 100%)",
-              border: "1px solid var(--border)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              boxShadow: "0 0 60px rgba(0,212,255,0.12), inset 0 0 40px rgba(0,212,255,0.04)",
+              border: "1px dashed rgba(0, 212, 255, 0.18)",
+              pointerEvents: "none",
             }}
-          >
-            {/* Rotating ring */}
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-              style={{
-                position: "absolute",
-                inset: "-24px",
-                borderRadius: "50%",
-                border: "1px dashed var(--border)",
-              }}
-            />
-            <motion.div
-              animate={{ rotate: -360 }}
-              transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-              style={{
-                position: "absolute",
-                inset: "-48px",
-                borderRadius: "50%",
-                border: "1px dashed rgba(0,212,255,0.05)",
-              }}
-            />
+          />
 
-            {/* Orbiting tech icons */}
-            {TECH_ORBIT.map((tech, i) => {
-              const angle = (i / TECH_ORBIT.length) * 2 * Math.PI;
-              const radius = 96;
-              const x = Math.cos(angle) * radius;
-              const y = Math.sin(angle) * radius;
-              return (
-                <motion.div
-                  key={tech.label}
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 20, repeat: Infinity, ease: "linear", delay: -(i * 5) }}
-                  style={{
-                    position: "absolute",
-                    transformOrigin: `-${x}px -${y}px`,
-                    left: `calc(50% + ${x}px - 22px)`,
-                    top: `calc(50% + ${y}px - 22px)`,
-                  }}
-                >
-                  <motion.div
-                    animate={{ rotate: -360 }}
-                    transition={{ duration: 20, repeat: Infinity, ease: "linear", delay: -(i * 5) }}
-                    whileHover={{ scale: 1.3 }}
-                    style={{
-                      width: "44px",
-                      height: "44px",
-                      borderRadius: "50%",
-                      background: "var(--bg-card)",
-                      border: "1px solid var(--border)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      flexDirection: "column",
-                      color: "var(--primary)",
-                      cursor: "default",
-                      boxShadow: "0 4px 16px rgba(0,0,0,0.3)",
-                    }}
-                  >
-                    <tech.icon size={16} />
-                  </motion.div>
-                </motion.div>
-              );
-            })}
+          {/* Counter-rotating dashed ring — inner */}
+          <motion.div
+            animate={{ rotate: -360 }}
+            transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
+            style={{
+              position: "absolute",
+              width: "260px",
+              height: "260px",
+              borderRadius: "50%",
+              border: "1px dashed rgba(0, 212, 255, 0.10)",
+              pointerEvents: "none",
+            }}
+          />
 
-            {/* Center text */}
-            <div style={{ textAlign: "center", zIndex: 1 }}>
-              <div style={{ fontFamily: "var(--font-display)", fontSize: "1.8rem", fontWeight: 900, color: "var(--primary)", lineHeight: 1 }}>MA</div>
-              <div style={{ fontSize: "0.6rem", color: "var(--text-muted)", letterSpacing: "0.2em", textTransform: "uppercase", marginTop: "4px" }}>Dev</div>
-            </div>
-          </div>
+          {/* Conic-gradient spinning glow border around photo */}
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
+            style={{
+              position: "absolute",
+              width: "232px",
+              height: "232px",
+              borderRadius: "50%",
+              background: "conic-gradient(from 0deg, #00d4ff, transparent 50%, #00d4ff)",
+              opacity: 0.55,
+              pointerEvents: "none",
+            }}
+          />
 
-          {/* Floating info cards */}
+          {/* Photo frame — subtle float */}
           <motion.div
             animate={{ y: [0, -10, 0] }}
+            transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut" }}
+            style={{ position: "relative", zIndex: 2 }}
+          >
+            {/* Inner border ring */}
+            <div style={{
+              position: "absolute",
+              inset: "-4px",
+              borderRadius: "50%",
+              background: "linear-gradient(135deg, rgba(0,212,255,0.6) 0%, rgba(0,212,255,0.05) 50%, rgba(0,212,255,0.4) 100%)",
+              zIndex: 0,
+            }} />
+
+            {/* The actual photo */}
+            <div style={{
+              position: "relative",
+              zIndex: 1,
+              width: "220px",
+              height: "220px",
+              borderRadius: "50%",
+              overflow: "hidden",
+              border: "3px solid var(--bg-deep)",
+              boxShadow: "0 0 0 1px rgba(0,212,255,0.2), 0 20px 60px rgba(0,0,0,0.6), 0 0 40px rgba(0,212,255,0.08)",
+            }}>
+              <img
+                src="/Ahmed Ijaz.png"
+                alt="Ahmed Ijaz — Software Engineer"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  objectPosition: "top center",
+                  display: "block",
+                }}
+              />
+            </div>
+          </motion.div>
+
+          {/* Orbiting tech icons around the photo */}
+          {TECH_ORBIT.map((tech, i) => {
+            const angle = (i / TECH_ORBIT.length) * 2 * Math.PI - Math.PI / 4;
+            const radius = 148;
+            const x = Math.cos(angle) * radius;
+            const y = Math.sin(angle) * radius;
+            return (
+              <motion.div
+                key={tech.label}
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.6 + i * 0.15, type: "spring", damping: 12 }}
+                style={{
+                  position: "absolute",
+                  left: `calc(50% + ${x}px - 24px)`,
+                  top: `calc(50% + ${y}px - 24px)`,
+                  zIndex: 3,
+                }}
+              >
+                <motion.div
+                  animate={{ y: [0, -6, 0] }}
+                  transition={{
+                    duration: 3 + i * 0.4,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: i * 0.5,
+                  }}
+                  whileHover={{ scale: 1.25 }}
+                  style={{
+                    width: "48px",
+                    height: "48px",
+                    borderRadius: "50%",
+                    background: "rgba(5, 10, 15, 0.9)",
+                    border: "1px solid rgba(0, 212, 255, 0.25)",
+                    backdropFilter: "blur(12px)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    flexDirection: "column",
+                    gap: "2px",
+                    color: "var(--primary)",
+                    cursor: "default",
+                    boxShadow: "0 4px 20px rgba(0,0,0,0.4), 0 0 12px rgba(0,212,255,0.1)",
+                  }}
+                >
+                  <tech.icon size={17} strokeWidth={1.5} />
+                  <span style={{ fontSize: "0.45rem", letterSpacing: "0.08em", color: "rgba(0,212,255,0.7)", textTransform: "uppercase" }}>
+                    {tech.label}
+                  </span>
+                </motion.div>
+              </motion.div>
+            );
+          })}
+
+          {/* Floating card — Open to Work (top-right) */}
+          <motion.div
+            animate={{ y: [0, -8, 0] }}
             transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
             className="glass"
             style={{
               position: "absolute",
-              top: "10%",
-              right: "0%",
-              padding: "0.8rem 1.2rem",
+              top: "6%",
+              right: "-4%",
+              padding: "0.75rem 1.1rem",
               borderRadius: "var(--radius-md)",
               display: "flex",
               alignItems: "center",
-              gap: "0.75rem",
-              minWidth: "175px",
+              gap: "0.65rem",
+              minWidth: "168px",
+              zIndex: 4,
             }}
           >
-            <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#22c55e", boxShadow: "0 0 8px #22c55e" }} />
+            <div style={{
+              width: "8px", height: "8px",
+              borderRadius: "50%",
+              background: "#22c55e",
+              boxShadow: "0 0 10px #22c55e",
+              flexShrink: 0,
+            }} />
             <div>
-              <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "0.8rem", color: "var(--text-primary)" }}>Open to Work</div>
-              <div style={{ fontSize: "0.65rem", color: "var(--text-muted)" }}>Full-time / Freelance</div>
+              <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "0.78rem", color: "var(--text-primary)" }}>
+                Open to Work
+              </div>
+              <div style={{ fontSize: "0.62rem", color: "var(--text-muted)" }}>Full-time / Freelance</div>
             </div>
           </motion.div>
 
+          {/* Floating card — Experience (bottom-left) */}
           <motion.div
             animate={{ y: [0, 8, 0] }}
             transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
             className="glass"
             style={{
               position: "absolute",
-              bottom: "12%",
-              left: "0%",
-              padding: "0.8rem 1.2rem",
+              bottom: "8%",
+              left: "-4%",
+              padding: "0.75rem 1.1rem",
               borderRadius: "var(--radius-md)",
               display: "flex",
               alignItems: "center",
-              gap: "0.75rem",
-              minWidth: "160px",
+              gap: "0.65rem",
+              minWidth: "154px",
+              zIndex: 4,
             }}
           >
-            <span style={{ fontSize: "1.2rem" }}>⚡</span>
+            <span style={{ fontSize: "1.1rem" }}>⚡</span>
             <div>
-              <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "0.8rem", color: "var(--text-primary)" }}>1yr+ Experience</div>
-              <div style={{ fontSize: "0.65rem", color: "var(--text-muted)" }}>Professional work</div>
+              <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "0.78rem", color: "var(--text-primary)" }}>
+                1yr+ Experience
+              </div>
+              <div style={{ fontSize: "0.62rem", color: "var(--text-muted)" }}>Professional work</div>
             </div>
           </motion.div>
-        </div>
+
+          {/* Floating card — Projects (bottom-right) */}
+          <motion.div
+            animate={{ y: [0, -6, 0] }}
+            transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 0.7 }}
+            className="glass"
+            style={{
+              position: "absolute",
+              bottom: "18%",
+              right: "-2%",
+              padding: "0.65rem 1rem",
+              borderRadius: "var(--radius-md)",
+              display: "flex",
+              alignItems: "center",
+              gap: "0.6rem",
+              zIndex: 4,
+            }}
+          >
+            <span style={{ fontSize: "1rem" }}>🚀</span>
+            <div>
+              <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "0.76rem", color: "var(--text-primary)" }}>
+                5+ Projects
+              </div>
+              <div style={{ fontSize: "0.6rem", color: "var(--text-muted)" }}>Delivered</div>
+            </div>
+          </motion.div>
+        </motion.div>
+
       </div>
 
       {/* Scroll Indicator */}
